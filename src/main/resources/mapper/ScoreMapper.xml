@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.Score">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_test_id" jdbcType="VARCHAR" property="originTestId" />
+    <result column="date" jdbcType="TIMESTAMP" property="date"/>
+    <result column="origin_student_id" jdbcType="VARCHAR" property="originStudentId" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="origin_class_id" jdbcType="VARCHAR" property="originClassId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="origin_grade_id" jdbcType="VARCHAR" property="originGradeId" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="z_score" jdbcType="DOUBLE" property="zScore" />
+    <result column="t_score" jdbcType="DOUBLE" property="tScore" />
+    <result column="level" jdbcType="DOUBLE" property="level" />
+    <result column="origin_subject_id" jdbcType="VARCHAR" property="originSubjectId" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="origin_exam_id" jdbcType="VARCHAR" property="originExamId" />
+    <result column="exam_name" jdbcType="VARCHAR" property="examName" />
+    <result column="origin_term_id" jdbcType="VARCHAR" property="originTermId" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId" />
+    <result column="origin_teacher_id" jdbcType="VARCHAR" property="originTeacherId" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+  </resultMap>
+
+  <resultMap id="KeyResultMap" type="com.analysisplatform.model.specialModel.ScoreAssist">
+    <result column="origin_student_id" jdbcType="VARCHAR" property="originStudentId"/>
+    <result column="origin_test_id" jdbcType="VARCHAR" property="originTestId"/>
+  </resultMap>
+
+
+<!--    为了保证代码重用性，所以存在，但是不用-->
+    <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String"></select>
+    <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.Score"></update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+        insert into score
+        (origin_test_id,date,origin_student_id,student_name,origin_class_id,class_name,
+        origin_grade_id,grade_name,score,z_score,t_score,level,origin_subject_id,subject_name,
+        origin_exam_id,exam_name,origin_term_id,origin_school_id,origin_campus_id,
+        origin_teacher_id,teacher_name) values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.originTestId},#{item.date},#{item.originStudentId},#{item.studentName},#{item.originClassId},#{item.className},
+          #{item.originGradeId},#{item.gradeName},#{item.score},#{item.zScore},#{item.tScore},#{item.level},#{item.originSubjectId},
+          #{item.subjectName},#{item.originExamId},#{item.examName},#{item.originTermId},#{item.originSchoolId},#{item.originCampusId},
+          #{item.originTeacherId},#{item.teacherName})
+        </foreach>
+        on duplicate key update
+        origin_test_id=values(origin_test_id),
+        date=values(date),
+        student_name=values(student_name),
+        origin_class_id=values(origin_class_id),
+        class_name=values(class_name),
+        origin_grade_id=values(origin_grade_id),
+        grade_name=values(grade_name),
+        score=values(score),
+        z_score=values(z_score),
+        t_score=values(t_score),
+        level=values(level),
+        origin_subject_id=values(origin_subject_id),
+        subject_name=values(subject_name),
+        origin_exam_id=values(origin_exam_id),
+        exam_name=values(exam_name),
+        origin_term_id=values(origin_term_id),
+        origin_teacher_id=values(origin_teacher_id),
+        teacher_name=values(teacher_name)
+  </insert>
+</mapper>

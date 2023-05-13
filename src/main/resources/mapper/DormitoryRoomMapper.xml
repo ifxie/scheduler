@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.DormitoryRoomMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.DormitoryRoom">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_id" jdbcType="VARCHAR" property="originId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="origin_dormitory_building_id" jdbcType="VARCHAR" property="originDormitoryBuildingId" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId"/>
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId"/>
+  </resultMap>
+
+  <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String">
+        select origin_id from dormitory_room where origin_school_id=#{schoolId}
+  </select>
+<!--完成-->
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.DormitoryRoom">
+    update dormitory_room
+    <set>
+      name=#{name},
+      origin_dormitory_building_id=#{originDormitoryBuildingId},
+      origin_campus_id=#{originCampusId}
+    </set>
+    where origin_id=#{originId} and origin_school_id=#{originSchoolId}
+  </update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+    INSERT INTO dormitory_room
+    (origin_id,name,origin_dormitory_building_id,origin_school_id,origin_campus_id)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.originId},#{item.name},#{item.originDormitoryBuildingId},#{item.originSchoolId},#{item.originCampusId})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    name=VALUES(name),
+    origin_dormitory_building_id=VALUES(origin_dormitory_building_id)
+  </insert>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.ConsumptionMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.Consumption">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_id" jdbcType="VARCHAR" property="originId" />
+    <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
+    <result column="origin_student_id" jdbcType="VARCHAR" property="originStudentId" />
+    <result column="deal_amount" jdbcType="DOUBLE" property="dealAmount" />
+    <result column="deal_area_id" jdbcType="VARCHAR" property="dealAreaId" />
+    <result column="account_amount" jdbcType="DOUBLE" property="accountAmount" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="student_sex" jdbcType="CHAR" property="studentSex" />
+    <result column="student_naiton" jdbcType="VARCHAR" property="studentNaiton" />
+    <result column="is_boarding" jdbcType="CHAR" property="isBoarding" />
+    <result column="origin_class_id" jdbcType="VARCHAR" property="originClassId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="origin_grade_id" jdbcType="VARCHAR" property="originGradeId" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+  </resultMap>
+
+  <select id="findByName" resultMap="BaseResultMap" parameterType="String">
+        select * from consumption where student_name=#{name}
+  </select>
+
+  <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String">
+        select origin_id from consumption where origin_school_id=#{schoolId}
+  </select>
+<!--完成-->
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.Consumption">
+    update consumption
+    <set>
+      deal_time=#{dealTime},
+      origin_student_id=#{originStudentId},
+      deal_amount=#{dealAmount},
+      deal_area_id=#{dealAreaId},
+      account_amount=#{accountAmount},
+      origin_campus_id=#{originCampusId},
+      student_name=#{studentName},
+      student_sex=#{studentSex},
+      student_naiton=#{studentNaiton},
+      is_boarding=#{isBoarding},
+      origin_class_id=#{originClassId},
+      class_name=#{className},
+      origin_grade_id=#{originGradeId},
+      grade_name=#{gradeName}
+    </set>
+    where origin_id=#{originId} and origin_school_id=#{originSchoolId}
+  </update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+        INSERT INTO consumption
+        (origin_id,deal_time,origin_student_id,deal_amount,deal_area_id,account_amount,origin_school_id,
+        origin_campus_id,student_name,student_sex,student_naiton,is_boarding,origin_class_id,class_name,
+        origin_grade_id,grade_name) VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.originId},#{item.dealTime},#{item.originStudentId},#{item.dealAmount},#{item.dealAreaId},#{item.accountAmount},
+        #{item.originSchoolId},#{item.originCampusId},#{item.studentName},#{item.studentSex},#{item.studentNaiton},#{item.isBoarding},
+        #{item.originClassId},#{item.className},#{item.originGradeId},#{item.gradeName})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    deal_time=VALUES(deal_time),
+    origin_student_id=VALUES(origin_student_id),
+    deal_amount=VALUES(deal_amount),
+    deal_area_id=VALUES(deal_area_id),
+    account_amount=VALUES(account_amount),
+    student_name=VALUES(student_name),
+    student_sex=VALUES(student_sex),
+    student_naiton=VALUES(student_naiton),
+    is_boarding=VALUES(is_boarding),
+    origin_class_id=VALUES(origin_class_id),
+    class_name=VALUES(class_name),
+    origin_grade_id=VALUES(origin_grade_id),
+    grade_name=VALUES(grade_name)
+  </insert>
+</mapper>

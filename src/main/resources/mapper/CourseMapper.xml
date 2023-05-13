@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.Course">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_class_id" jdbcType="VARCHAR" property="originClassId" />
+    <result column="origin_subject_id" jdbcType="VARCHAR" property="originSubjectId" />
+    <result column="origin_teacher_id" jdbcType="VARCHAR" property="originTeacherId" />
+    <result column="origin_term_id" jdbcType="VARCHAR" property="originTermId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+<!--    <result column="subject_must" jdbcType="VARCHAR" property="subjectMust" />-->
+<!--    <result column="subject_sign" jdbcType="VARCHAR" property="subjectSign" />-->
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId" />
+    <result column="origin_grade_id" jdbcType="VARCHAR" property="originGradeId" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+  </resultMap>
+<!--废弃，但是为了保证上层mapper<T>的重用性保留-->
+  <select id="findAllOriginIdBySchoolId" parameterType="java.lang.String" resultMap="BaseResultMap"></select>
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.Course"></update>
+
+<!--  <select id="findByKeys" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+<!--        select * from course where origin_school_id=#{schoolId} and-->
+<!--                                    origin_class_id=#{originClassId} and-->
+<!--                                    origin_subject_id=#{originSubjectId} and-->
+<!--                                    origin_teacher_id=#{originTeacherId}-->
+<!--                                    origin_term_id=#{originTermId}-->
+<!--  </select>-->
+
+
+<!--&lt;!&ndash;  根据origin_class_id,origin_subject_id,origin_teacher_id,origin_term_id，origin_school_id来确定唯一的记录&ndash;&gt;-->
+<!--&lt;!&ndash;  完成：废弃&ndash;&gt;-->
+<!--  <update id="updateByObject" parameterType="com.analysisplatform.model.Course">-->
+<!--    update course-->
+<!--    <set>-->
+<!--      class_name=#{className},-->
+<!--      subject_name=#{subjectName},-->
+<!--      teacher_name=#{teacherName},-->
+<!--      origin_campus_id=#{originCampusId},-->
+<!--      origin_grade_id=#{originGradeId},-->
+<!--      grade_name=#{gradeName}-->
+<!--    </set>-->
+<!--    where origin_class_id=#{originClassId} and-->
+<!--          origin_subject_id=#{originSubjectId} and-->
+<!--          origin_teacher_id=#{originTeacherId} and-->
+<!--          origin_term_id=#{originTermId} and-->
+<!--          origin_school_id=#{originSchoolId}-->
+<!--  </update>-->
+<!--    用了索引-->
+    <insert id="insertNoRepeat" parameterType="list">
+        INSERT INTO course
+        (origin_class_id,origin_subject_id,origin_teacher_id,origin_term_id,class_name,subject_name,
+        teacher_name,origin_school_id,origin_campus_id,origin_grade_id,grade_name)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.originClassId},#{item.originSubjectId},#{item.originTeacherId},#{item.originTermId},#{item.className},#{item.subjectName},
+        #{item.teacherName},#{item.originSchoolId},#{item.originCampusId},#{item.originGradeId},#{item.gradeName})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        class_name=VALUES(class_name),
+        subject_name=VALUES(subject_name),
+        teacher_name=VALUES(teacher_name),
+        origin_grade_id=VALUES(origin_grade_id),
+        grade_name=VALUES(grade_name)
+    </insert>
+
+</mapper>

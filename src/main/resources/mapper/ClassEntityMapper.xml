@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.ClassEntityMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.ClassEntity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_id" jdbcType="VARCHAR" property="originId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="origin_teacher_id" jdbcType="VARCHAR" property="originTeacherId" />
+    <result column="origin_grade_id" jdbcType="VARCHAR" property="originGradeId" />
+    <result column="builddate" jdbcType="TIMESTAMP" property="builddate" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId" />
+    <result column="origin_term_id" jdbcType="VARCHAR" property="originTermId" />
+  </resultMap>
+  <!--完成-->
+  <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String">
+        select origin_id from class where origin_school_id=#{schoolId}
+  </select>
+
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.ClassEntity">
+    update class
+    <set>
+      name=#{name},
+      origin_teacher_id=#{originTeacherId},
+      origin_grade_id=#{originGradeId},
+      builddate=#{builddate},
+      origin_campus_id=#{originCampusId},
+      origin_term_id=#{originTermId}
+    </set>
+    where origin_id=#{originId} and origin_school_id=#{originSchoolId}
+  </update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+        INSERT INTO class
+        (origin_id,name,origin_teacher_id,origin_grade_id,builddate,origin_school_id,origin_campus_id,origin_term_id)
+        VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.originId},#{item.name},#{item.originTeacherId},#{item.originGradeId},#{item.builddate},#{item.originSchoolId},
+      #{item.originCampusId},#{item.originTermId})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    name=VALUES(name),
+    origin_teacher_id=VALUES(origin_teacher_id),
+    origin_grade_id=VALUES(origin_grade_id),
+    builddate=VALUES(builddate),
+    origin_term_id=VALUES(origin_term_id)
+  </insert>
+
+</mapper>

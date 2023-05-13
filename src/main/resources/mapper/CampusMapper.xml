@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.CampusMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.Campus">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_id" jdbcType="VARCHAR" property="originId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="administrative_division" jdbcType="VARCHAR" property="administrativeDivision"/>
+    <result column="address" jdbcType="VARCHAR" property="address"/>
+    <result column="area" jdbcType="VARCHAR" property="area"/>
+  </resultMap>
+
+  <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String">
+        select origin_id from campus where origin_school_id=#{schoolId}
+  </select>
+<!--  完成-->
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.Campus">
+    update campus
+    <set>
+      name=#{name},
+      administrative_division=#{administrativeDivision},
+      address=#{address},
+      area=#{area},
+    </set>
+    where origin_id=#{originId} and origin_school_id=#{originSchoolId}
+  </update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+    INSERT INTO campus
+    (origin_id,name,origin_school_id,administrative_division,address,area)
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.originId},#{item.name},#{item.originSchoolId},#{item.administrativeDivision},#{item.address},#{item.area})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    name=VALUES(name),
+    administrative_division=VALUES(administrative_division),
+    address=VALUES(address),
+    area=VALUES(area),
+  </insert>
+</mapper>

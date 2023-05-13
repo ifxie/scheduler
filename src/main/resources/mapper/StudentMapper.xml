@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.analysisplatform.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.analysisplatform.model.Student">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin_id" jdbcType="VARCHAR" property="originId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="birthdate" jdbcType="TIMESTAMP" property="birthdate" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="wealth" jdbcType="VARCHAR" property="wealth" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="residence_place" jdbcType="VARCHAR" property="residencePlace" />
+    <result column="residence_type" jdbcType="VARCHAR" property="residenceType" />
+    <result column="home_address" jdbcType="VARCHAR" property="homeAddress" />
+    <result column="member" jdbcType="VARCHAR" property="member" />
+    <result column="origin_class_id" jdbcType="VARCHAR" property="originClassId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="origin_grade_id" jdbcType="VARCHAR" property="originGradeId" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+    <result column="is_boarding" jdbcType="CHAR" property="isBoarding" />
+    <result column="origin_dormitory_building_id" jdbcType="VARCHAR" property="originDormitoryBuildingId" />
+    <result column="dormitory_room_name" jdbcType="VARCHAR" property="dormitoryRoomName" />
+    <result column="origin_school_id" jdbcType="VARCHAR" property="originSchoolId" />
+    <result column="origin_campus_id" jdbcType="VARCHAR" property="originCampusId" />
+  </resultMap>
+
+  <select id="findBoarders" resultMap="BaseResultMap">
+        select * from student where is_boarding is not null ;
+  </select>
+
+  <select id="findAllOriginIdBySchoolId" resultType="java.lang.String" parameterType="java.lang.String">
+        select origin_id from student where origin_school_id=#{schoolId}
+  </select>
+<!--完成-->
+  <update id="updateByOriginIdAndSchoolId" parameterType="com.analysisplatform.model.Student">
+    update student
+    <set>
+      name=#{name},
+      sex=#{sex},
+      birthdate=#{birthdate},
+      nation=#{nation},
+      wealth=#{wealth},
+      native_place=#{nativePlace},
+      residence_place=#{residencePlace},
+      residence_type=#{residenceType},
+      home_address=#{homeAddress},
+      member=#{member},
+      origin_class_id=#{originClassId},
+      class_name=#{className},
+      origin_grade_id=#{originGradeId},
+      grade_name=#{gradeName},
+      is_boarding=#{isBoarding},
+      origin_dormitory_building_id=#{originDormitoryBuildingId},
+      dormitory_room_name=#{dormitoryRoomName},
+      origin_campus_id=#{originCampusId}
+    </set>
+    where origin_id=#{originId} and origin_school_id=#{originSchoolId}
+  </update>
+
+  <insert id="insertNoRepeat" parameterType="list">
+    INSERT INTO student
+    (origin_id,name,sex,birthdate,nation,wealth,native_place,residence_place,residence_type,home_address,
+    member,origin_class_id,class_name,origin_grade_id,grade_name,is_boarding,origin_dormitory_building_id,
+    dormitory_room_name,origin_school_id,origin_campus_id)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.originId},#{item.name},#{item.sex},#{item.birthdate},#{item.nation},#{item.wealth},#{item.nativePlace},
+      #{item.residencePlace},#{item.residenceType},#{item.homeAddress},#{item.member},#{item.originClassId},#{item.className},
+      #{item.originGradeId},#{item.gradeName},#{item.isBoarding},#{item.originDormitoryBuildingId},#{item.dormitoryRoomName},
+      #{item.originSchoolId},#{item.originCampusId})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    name=VALUES(name),
+    sex=VALUES(sex),
+    birthdate=VALUES(birthdate),
+    nation=VALUES(nation),
+    wealth=VALUES(wealth),
+    native_place=VALUES(native_place),
+    residence_place=VALUES(residence_place),
+    residence_type=VALUES(residence_type),
+    home_address=VALUES(home_address),
+    member=VALUES(member),
+    origin_class_id=VALUES(origin_class_id),
+    class_name=VALUES(class_name),
+    origin_grade_id=VALUES(origin_grade_id),
+    grade_name=VALUES(grade_name),
+    is_boarding=VALUES(is_boarding),
+    origin_dormitory_building_id=VALUES(origin_dormitory_building_id),
+    dormitory_room_name=VALUES(dormitory_room_name)
+  </insert>
+</mapper>

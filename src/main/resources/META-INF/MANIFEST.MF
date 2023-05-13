@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Main-Class: com.analysisplatform.Application
+Class-Path: commons-lang3-3.6.jar commons-codec-1.10.jar jsr305-1.3.9.ja
+ r spring-aop-4.3.17.RELEASE.jar mybatis-spring-1.3.1.jar logback-classi
+ c-1.1.11.jar spring-boot-starter-1.5.13.RELEASE.jar spring-tx-4.3.17.RE
+ LEASE.jar spring-boot-autoconfigure-1.5.13.RELEASE.jar tomcat-embed-el-
+ 8.5.31.jar spring-context-4.3.17.RELEASE.jar error_prone_annotations-2.
+ 0.18.jar tomcat-jdbc-8.5.31.jar spring-jdbc-4.3.17.RELEASE.jar animal-s
+ niffer-annotations-1.14.jar jcl-over-slf4j-1.7.25.jar tomcat-embed-webs
+ ocket-8.5.31.jar spring-beans-4.3.17.RELEASE.jar spring-boot-starter-ao
+ p-1.5.13.RELEASE.jar spring-boot-starter-tomcat-1.5.13.RELEASE.jar hibe
+ rnate-validator-5.3.6.Final.jar spring-boot-1.5.13.RELEASE.jar jboss-lo
+ gging-3.3.2.Final.jar spring-expression-4.3.17.RELEASE.jar spring-core-
+ 4.3.17.RELEASE.jar spring-boot-starter-logging-1.5.13.RELEASE.jar class
+ mate-1.3.4.jar jackson-core-2.8.11.jar spring-boot-configuration-proces
+ sor-1.5.13.RELEASE.jar log4j-over-slf4j-1.7.25.jar mysql-connector-java
+ -5.1.46.jar j2objc-annotations-1.1.jar spring-boot-starter-web-1.5.13.R
+ ELEASE.jar guava-23.0.jar spring-web-4.3.17.RELEASE.jar persistence-api
+ -1.0.jar aspectjweaver-1.8.13.jar tomcat-annotations-api-8.5.31.jar fas
+ tjson-1.2.47.jar jackson-annotations-2.8.0.jar logback-core-1.1.11.jar 
+ spring-webmvc-4.3.17.RELEASE.jar mybatis-3.4.5.jar jackson-databind-2.8
+ .11.1.jar mapper-3.4.2.jar slf4j-api-1.7.25.jar jsqlparser-0.9.5.jar jj
+ wt-0.9.1.jar jul-to-slf4j-1.7.25.jar tomcat-embed-core-8.5.31.jar tomca
+ t-juli-8.5.31.jar pagehelper-4.2.1.jar validation-api-1.1.0.Final.jar s
+ pring-boot-starter-jdbc-1.5.13.RELEASE.jar druid-spring-boot-starter-1.
+ 1.10.jar druid-1.1.10.jar snakeyaml-1.17.jar
+
