@@ -7,7 +7,7 @@ public final class ProjectConstant {
     /**
      * 作用：生成代码所在的基础包名称
      * 注意：这个配置修改之后需要手工修改src目录项目默认的包路径，使其保持一致，不然会找不到类*/
-    public static final String BASE_PACKAGE = "com.analysisplatform";
+    public static final String BASE_PACKAGE = "com.aston";
     /** 作用：生成的Model所在包*/
     public static final String MODEL_PACKAGE = BASE_PACKAGE + ".model";
     /**作用：生成的Mapper所在包*/
